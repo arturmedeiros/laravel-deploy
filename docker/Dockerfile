@@ -31,12 +31,6 @@ RUN mkdir -p $APP_DIR/storage/logs \
 
 RUN chown -R www-data:www-data $APP_DIR/storage
 
-# Setup Crontab
-RUN touch crontab.tmp
-RUN echo '* * * * * cd $APP_DIR && php /backend/artisan schedule:run >> /dev/null 2>&1' >> crontab.tmp
-RUN crontab crontab.tmp
-RUN rm -rf crontab.tmp
-
 # Instalação do Supervisor
 RUN apk add --no-cache supervisor
 RUN touch /var/run/supervisord.sock \
@@ -50,5 +44,9 @@ COPY ./docker/supervisord/supervisord.conf /etc/supervisord.conf
 RUN mkdir -p /etc/supervisor.d
 COPY ./docker/supervisord/workers /etc/supervisor.d
 
-# Set working directory
+# Setup Cron
+RUN echo '* * * * * cd $APP_DIR && /usr/local/bin/php /backend/artisan schedule:run > /dev/null 2>&1' >> /var/spool/cron/crontabs/root
+RUN /usr/sbin/crond -l10
+
+# Define diretório de trabalho
 WORKDIR $APP_DIR

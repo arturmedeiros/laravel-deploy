@@ -234,6 +234,7 @@ docker exec backend composer install \
     && docker exec backend php artisan key:generate --force \
     && docker exec backend php artisan jwt:secret --force \
     && docker exec backend php artisan storage:link \
+    && docker exec backend php artisan queue:table \
     && docker exec backend php artisan migrate --seed --force
 
 echo "✅  Etapa concluída!"

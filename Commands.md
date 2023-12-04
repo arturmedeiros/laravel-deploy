@@ -76,6 +76,12 @@ docker exec backend php artisan key:generate
 docker exec backend php artisan jwt:secret
 ```
 
+#### Cria tabela de Jobs
+```shell
+docker exec backend php artisan queue:table
+docker exec backend php artisan migrate --force
+```
+
 #### Cria do Link Simbólico para o Storage do Laravel
 ```shell
 docker exec backend php artisan storage:link
@@ -109,4 +115,9 @@ docker exec backend php artisan migration
 #### Rodando as Migrations com Seed de Super Usuário
 ```shell
 docker exec backend php artisan migration --seed
+```
+
+#### Iniciar tarefas Cron
+```shell
+docker exec backend /usr/sbin/crond -l10
 ```

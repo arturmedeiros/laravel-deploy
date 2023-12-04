@@ -22,6 +22,7 @@ Run Laravel 10 project (FPM/NGINX & Octane/Swoole) using Docker and Docker-compo
 * PHP MyAdmin.
 * Supervisord.
 * Configured Crontab for running Scheduled Tasks.
+* Example of a Laravel command used in a scheduled task.
 
 ## ✅ Requirements
 
@@ -39,6 +40,7 @@ cd .. && bash <(curl -s "https://raw.githubusercontent.com/arturmedeiros/laravel
     && docker exec backend php artisan key:generate --force \
     && docker exec backend php artisan jwt:secret --force \
     && docker exec backend php artisan storage:link \
+    && docker exec backend php artisan queue:table \
     && docker exec backend php artisan migrate --seed --force
 ```
 
@@ -50,6 +52,12 @@ docker-compose up --build -d
 #### Access bash from Laravel container
 ```shell
 docker exec -it backend sh
+```
+
+#### Activate Supervisor and Schedules Tasks Cron
+```shell
+docker exec backend supervisord -c /etc/supervisord.conf \
+  && docker exec backend /usr/sbin/crond -l10
 ```
 
 ## 🧑🏻‍💻 Author

@@ -16,6 +16,8 @@
 /backend/yarn-error.log
 /backend/supervisord*
 /backend/.env.local
+/backend/public/vendor/horizon/app.js
+/backend/public/vendor/horizon/mix-manifest.json
 .env
 .env.backup
 .env.production

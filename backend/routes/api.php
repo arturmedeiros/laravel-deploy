@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
 // API Running
@@ -32,3 +33,8 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::apiResource('users', UserController::class);
     });
 });
+
+Route::get('test', function (){
+    \App\Jobs\GeneralJob::dispatch()->delay(now());
+    return response()->json(['Chamou o JOB de teste!']);
+})->name('test');
