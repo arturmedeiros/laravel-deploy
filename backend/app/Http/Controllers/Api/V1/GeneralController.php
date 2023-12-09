@@ -10,9 +10,14 @@ use Illuminate\Support\Facades\Log;
 
 class GeneralController extends Controller
 {
+    // Exemplo de método que chama uma API e gera um log no Slack com a cotação do Wise.
     public function GetCheckServices(): bool|array
     {
         $url = 'https://api.wise.com/v1/comparisons/provider/wise?sourceCurrency=EUR&sendAmount=1000';
+
+        if(empty(env('LOG_SLACK_WEBHOOK_URL'))) {
+            return false;
+        }
 
         try {
             $response = Http::retry(3, 1000)->get($url)->json();
